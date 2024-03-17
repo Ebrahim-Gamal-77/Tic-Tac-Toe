@@ -8,7 +8,7 @@ import java.util.Random;
 public class Players_1 {
     // Computer round
     Random random = new Random();
-    JFrame frame = new JFrame("Tic Tac Toe");
+    JFrame frame;
     int computerTurn = random.nextInt(0 , 9);
     private final JButton[] buttons = new JButton[9];
     private int roundNum = 0;
@@ -77,77 +77,75 @@ public class Players_1 {
 
     // Create method of your entire code
     public void checkWinner(JButton[] buttons){
-        LastWindow lastWindow;
-
         if (!buttons[0].getText().isEmpty() && buttons[0].getText().equals(buttons[1].getText()) && buttons[1].getText().equals(buttons[2].getText())) {
             if (buttons[0].getText().equals("X")) {
-                lastWindow = new LastWindow("You Win!");
+                new LastWindow("You Win!");
                 frame.dispose();
             }else {
-                lastWindow = new LastWindow("You Lose!");
+                new LastWindow("You Lose!");
                 frame.dispose();
             }
         }
         else if(!buttons[3].getText().isEmpty() && buttons[3].getText().equals(buttons[4].getText()) && buttons[4].getText().equals(buttons[5].getText())) {
             if (buttons[3].getText().equals("X")) {
-                lastWindow = new LastWindow("You Win!");
+                new LastWindow("You Win!");
                 frame.dispose();
             }else {
-                lastWindow = new LastWindow("You Lose!");
+                new LastWindow("You Lose!");
                 frame.dispose();
             }
         }
         else if(!buttons[6].getText().isEmpty() && buttons[6].getText().equals(buttons[7].getText()) && buttons[7].getText().equals(buttons[8].getText())) {
             if (buttons[6].getText().equals("X")) {
-                lastWindow = new LastWindow("You Win!");
+                new LastWindow("You Win!");
                 frame.dispose();
             }else {
-                lastWindow = new LastWindow("You Lose!");
+                new LastWindow("You Lose!");
                 frame.dispose();
             }
         }
         else if(!buttons[0].getText().isEmpty() && buttons[0].getText().equals(buttons[3].getText()) && buttons[3].getText().equals(buttons[6].getText())) {
             if (buttons[0].getText().equals("X")) {
-                lastWindow = new LastWindow("You Win!");
+                new LastWindow("You Win!");
                 frame.dispose();
             }else {
-                lastWindow = new LastWindow("You Lose!");
+                new LastWindow("You Lose!");
                 frame.dispose();
             }
         }
         else if(!buttons[1].getText().isEmpty() && buttons[1].getText().equals(buttons[4].getText()) && buttons[4].getText().equals(buttons[8].getText())) {
             if (buttons[1].getText().equals("X")) {
-                lastWindow = new LastWindow("You Win!");
+                new LastWindow("You Win!");
                 frame.dispose();
             }else {
-                lastWindow = new LastWindow("You Lose!");
+                new LastWindow("You Lose!");
                 frame.dispose();
             }
         }
         else if(!buttons[2].getText().isEmpty() && buttons[2].getText().equals(buttons[5].getText()) && buttons[5].getText().equals(buttons[8].getText())) {
             if (buttons[2].getText().equals("X")) {
-                lastWindow = new LastWindow("You Win!");
+                new LastWindow("You Win!");
                 frame.dispose();
             }else {
-                lastWindow = new LastWindow("You Lose!");
+                new LastWindow("You Lose!");
                 frame.dispose();
             }
         }
         else if(!buttons[0].getText().isEmpty() && buttons[0].getText().equals(buttons[4].getText()) && buttons[4].getText().equals(buttons[8].getText())) {
             if (buttons[0].getText().equals("X")) {
-                lastWindow = new LastWindow("You Win!");
+                new LastWindow("You Win!");
                 frame.dispose();
             }else {
-                lastWindow = new LastWindow("You Lose!");
+                new LastWindow("You Lose!");
                 frame.dispose();
             }
         }
         else if(!buttons[2].getText().isEmpty() && buttons[2].getText().equals(buttons[4].getText()) && buttons[4].getText().equals(buttons[6].getText())) {
             if (buttons[2].getText().equals("X")) {
-                lastWindow = new LastWindow("You Win!");
+                new LastWindow("You Win!");
                 frame.dispose();
             }else {
-                lastWindow = new LastWindow("You Lose!");
+                new LastWindow("You Lose!");
                 frame.dispose();
             }
         } else {
@@ -158,7 +156,7 @@ public class Players_1 {
                 }
             }
             if (counter == 9) {
-                lastWindow = new LastWindow("It's Tie!");
+                new LastWindow("It's Tie!");
             }
         }
     }
