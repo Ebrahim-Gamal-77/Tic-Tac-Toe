@@ -151,7 +151,7 @@ public class Players_1 {
         } else {
             int counter = 0;
             for (int i = 0; i < 9; i++) {
-                if(!buttons[i].getText().isEmpty()){
+                if(!buttons[i].getText().isEmpty()) {
                     counter++;
                 }
             }
