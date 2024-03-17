@@ -1,0 +1,12 @@
+
+†	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚ÒéüÿÿÿÿJ$9f900a6f-3deb-4e37-a21e-02a51f853f23
+…
+java:S1192S"IDefine a constant instead of duplicating this literal "You Win!" 8 times.(€Óä¥J$9adc1d40-181b-448a-8bba-66d87dd1b7e8
+†
+java:S1192V"JDefine a constant instead of duplicating this literal "You Lose!" 8 times.(¬¿À²J$434ab1ff-c131-4477-bea6-d88dfc3e3400
+ˆ	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(½ö‘çJ$f2764446-2f32-4cf2-8670-06bef6a22325
+š	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ù¾ĞéûÿÿÿÿJ$d0c52338-3b33-437c-b69a-a69e8c950a6c
+…
+java:S3252"IUse static access with "javax.swing.WindowConstants" for "EXIT_ON_CLOSE".(¢¡´J$11218fb9-8a75-442f-bd8c-73936abaa7d0
+“
+java:S3776P"RRefactor this method to reduce its Cognitive Complexity from 48 to the 15 allowed.(²¬‰÷üÿÿÿÿJ$467754eb-94b6-4a81-9508-049da5ab4063
