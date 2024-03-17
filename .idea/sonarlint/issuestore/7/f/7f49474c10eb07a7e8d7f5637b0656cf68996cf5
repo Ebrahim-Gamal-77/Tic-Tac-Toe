@@ -1,0 +1,6 @@
+
+
+java:S1192"HDefine a constant instead of duplicating this literal "MV Boli" 3 times.(ΌΝΓÿÿÿÿÿ8Σ«¤αδ1J$266f53e5-6df9-4245-a63e-00b36a47e72a
+“	java:S117*"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£ψ8Τ«¤αδ1J$44192b72-08c4-47d6-80fc-1013fc5613b8
+	java:S1173"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡ΑΩ°ϋÿÿÿÿ8Υ«¤αδ1J$e69ccd59-7377-40c9-84f0-bbdff77a64b6
+΅	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ωΎΠιϋÿÿÿÿ8Φ«¤αδ1J$16d8c21d-a771-4556-9dad-dcacf6831d5c

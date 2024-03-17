@@ -1,4 +1,4 @@
-package Tic_Tac_Toe;
+package tic_tac_toe;
 
 public class MainWindow {
 }
