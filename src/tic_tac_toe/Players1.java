@@ -1,6 +1,5 @@
 package tic_tac_toe;
 
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
@@ -75,11 +74,11 @@ public class Players1 {
         frame.setVisible(true);
     }
 
-    public boolean isGameOver(@NotNull JButton[] buttons) {
+    public boolean isGameOver(JButton[] buttons) {
         Optional<String> rows = checkRows(buttons);
         if (rows.isPresent()) {
             String text = rows.get();
-            new LastWindow(text);
+            new LastPage(text);
             frame.dispose();
             return true;
         }
@@ -87,20 +86,20 @@ public class Players1 {
         Optional<String> columns = checkColumns(buttons);
         if (columns.isPresent()) {
             String text = columns.get();
-            new LastWindow(text);
+            new LastPage(text);
             frame.dispose();
             return true;
         }
 
         String diagonals = checkDiagonals(buttons);
         if (diagonals != null) {
-            new LastWindow(diagonals);
+            new LastPage(diagonals);
             frame.dispose();
             return true;
         }
 
         if (Arrays.stream(buttons).noneMatch(button -> button.getText().isEmpty())) {
-            new LastWindow(TIE_TEXT);
+            new LastPage(TIE_TEXT);
             frame.dispose();
             return true;
         }
@@ -108,13 +107,6 @@ public class Players1 {
     }
 
     private Optional<String> checkRows(JButton[] buttons) {
-        /*
-        return IntStream.rangeClosed(0, 2)
-                .map(i -> i * 3)
-                .filter(i -> !buttons[i].getText().isEmpty() && buttons[i].getText().equals(buttons[i + 1].getText()) && buttons[i + 1].getText().equals(buttons[i + 2].getText()))
-                .mapToObj(i -> buttons[i].getText().equals("X") ? WIN_TEXT : LOSE_TEXT)
-                .findFirst();
-         */
         for (int i = 0; i < 6; i += 3) {
             if (buttons[i].getText().isEmpty() || !buttons[i].getText().equals(buttons[i + 1].getText()) || !buttons[i + 1].getText().equals(buttons[i + 2].getText())) {
                 continue;
@@ -127,12 +119,6 @@ public class Players1 {
     }
 
     private Optional<String> checkColumns(JButton[] buttons) {
-        /*
-        return IntStream.rangeClosed(0, 2)
-                .filter(i -> !buttons[i].getText().isEmpty() && buttons[i].getText().equals(buttons[i + 3].getText()) && buttons[i + 3].getText().equals(buttons[i + 6].getText()))
-                .mapToObj(i -> buttons[i].getText().equals("X") ? WIN_TEXT : LOSE_TEXT)
-                .findFirst();
-         */
         for (int i = 0; i < 3; i++) {
             if (buttons[i].getText().isEmpty() || !buttons[i].getText().equals(buttons[i + 3].getText()) || !buttons[i + 3].getText().equals(buttons[i + 6].getText())) {
                 continue;
