@@ -1,8 +1,11 @@
 package tic_tac_toe;
 
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
@@ -13,72 +16,80 @@ public class Players1 {
     private static final Random random = new Random();
     private static final String WIN_TEXT = "You Win!";
     private static final String LOSE_TEXT = "You Lose!";
-    private static final String TIE_TEXT = "It's a Tie!";
-    private final JButton[] buttons = new JButton[9];
+    private static final String TIE_TEXT = "It's Tie!";
+    private final JButton[] cells = new JButton[9];
     private final JFrame frame;
     private int computerTurn = random.nextInt(0, 9);
     private int roundNum = 0;
 
     public Players1() {
+
         // Main frame
-        frame = new JFrame("Tic Tac Toe");
+        frame = new JFrame("Tic Tac Toe ( 1 Player )");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setBounds(350, 80, 700, 700);
-        frame.setIconImage(new ImageIcon(Objects.requireNonNull(Main.class.getClassLoader().getResource("xo icon 512(1).png"))).getImage());
+        frame.setIconImage(new ImageIcon(Objects.requireNonNull(Main.class.getClassLoader().getResource("xo icon 512.png"))).getImage());
         frame.setResizable(true);
         frame.setLayout(new GridLayout(3, 3, 5, 5));
         frame.getContentPane().setBackground(Color.BLACK);
 
         // Adjust buttons
-        for (int i = 0; i < buttons.length; i++) {
+        for (int i = 0; i < cells.length; i++) {
             // Create button's constructor
-            buttons[i] = new JButton();
+            cells[i] = new JButton();
 
             // Adjust buttons attributes
-            buttons[i].setBackground(Color.darkGray);
-            buttons[i].setFocusable(false);
-            buttons[i].setContentAreaFilled(false);
+            cells[i].setBackground(Color.darkGray);
+            cells[i].setFocusable(false);
+            cells[i].setContentAreaFilled(false);
 
             // Set buttons Action Listener
             final int temp = i;
-            buttons[i].addActionListener(e -> {
+            cells[i].addActionListener(e -> {
                 // Player turn
-                buttons[temp].setEnabled(false);
-                buttons[temp].setText("X");
-                buttons[temp].setFont(new Font(null, Font.BOLD, 225));
-                buttons[temp].setForeground(Color.white);
+                cells[temp].setEnabled(false);
+                cells[temp].setText("X");
+                cells[temp].setFont(new Font(null, Font.BOLD, 225));
+                cells[temp].setForeground(Color.white);
                 roundNum++;
 
-                if (isGameOver(buttons)) {
+                if (isGameOver(cells)) {
                     return;
                 }
                 // Check if new computer turn is reserved or not
                 if (roundNum < 5) {
-                    while (!buttons[computerTurn].getText().isEmpty()) { // need to exclude reserved places
+                    while (!cells[computerTurn].getText().isEmpty()) { // need to exclude reserved places
                         computerTurn = random.nextInt(0, 9);
                     }
                 }
-                buttons[computerTurn].setEnabled(false);
-                buttons[computerTurn].setText("O");
-                buttons[computerTurn].setFont(new Font(null, Font.BOLD, 225));
-                buttons[computerTurn].setForeground(Color.white);
+                cells[computerTurn].setEnabled(false);
+                cells[computerTurn].setText("O");
+                cells[computerTurn].setFont(new Font(null, Font.BOLD, 225));
+                cells[computerTurn].setForeground(Color.white);
 
-                isGameOver(buttons);
+                isGameOver(cells);
 
             });
 
             // Add buttons to the frame
-            frame.add(buttons[i]);
+            frame.add(cells[i]);
         }
 
         frame.setVisible(true);
     }
 
+    public void newLastPage(String text){
+        try {
+            new LastPage(text);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public boolean isGameOver(JButton[] buttons) {
         Optional<String> rows = checkRows(buttons);
         if (rows.isPresent()) {
             String text = rows.get();
-            new LastPage(text);
+            newLastPage(text);
             frame.dispose();
             return true;
         }
@@ -86,20 +97,20 @@ public class Players1 {
         Optional<String> columns = checkColumns(buttons);
         if (columns.isPresent()) {
             String text = columns.get();
-            new LastPage(text);
+            newLastPage(text);
             frame.dispose();
             return true;
         }
 
         String diagonals = checkDiagonals(buttons);
         if (diagonals != null) {
-            new LastPage(diagonals);
+            newLastPage(diagonals);
             frame.dispose();
             return true;
         }
 
         if (Arrays.stream(buttons).noneMatch(button -> button.getText().isEmpty())) {
-            new LastPage(TIE_TEXT);
+            newLastPage(TIE_TEXT);
             frame.dispose();
             return true;
         }
@@ -107,7 +118,7 @@ public class Players1 {
     }
 
     private Optional<String> checkRows(JButton[] buttons) {
-        for (int i = 0; i < 6; i += 3) {
+        for (int i = 0; i <= 6; i += 3) {
             if (buttons[i].getText().isEmpty() || !buttons[i].getText().equals(buttons[i + 1].getText()) || !buttons[i + 1].getText().equals(buttons[i + 2].getText())) {
                 continue;
             }
@@ -118,13 +129,13 @@ public class Players1 {
         return Optional.empty();
     }
 
-    private Optional<String> checkColumns(JButton[] buttons) {
-        for (int i = 0; i < 3; i++) {
-            if (buttons[i].getText().isEmpty() || !buttons[i].getText().equals(buttons[i + 3].getText()) || !buttons[i + 3].getText().equals(buttons[i + 6].getText())) {
+    private Optional<String> checkColumns(JButton[] cells) {
+        for (int i = 0; i <= 2; i++) {
+            if (cells[i].getText().isEmpty() || !cells[i].getText().equals(cells[i + 3].getText()) || !cells[i + 3].getText().equals(cells[i + 6].getText())) {
                 continue;
             }
 
-            String text = buttons[i].getText().equals("X") ? WIN_TEXT : LOSE_TEXT;
+            String text = cells[i].getText().equals("X") ? WIN_TEXT : LOSE_TEXT;
             return Optional.of(text);
         }
         return Optional.empty();
