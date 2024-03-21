@@ -1,2 +1,9 @@
 
-~	java:S125	"<This block of commented-out lines of code should be removed.(¦„ÂŠ8ßÖ³»å1J$93b35085-e22e-4ea0-9f1d-52c74d0f399a
+Î
+java:S1130"ŠRemove the declaration of thrown exception 'javax.sound.sampled.UnsupportedAudioFileException', as it cannot be thrown from method's body.(šù©8áªİãå1J$69064b27-705b-4289-9ad5-e7e27748c384
+É
+java:S1130"…Remove the declaration of thrown exception 'javax.sound.sampled.LineUnavailableException', as it cannot be thrown from method's body.(šù©8âªİãå1J$3613be6c-6118-4fda-9243-4a559c85f163
+¯
+java:S1130"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(šù©8âªİãå1J$e59a0522-08d4-4720-8953-6296b97e8294
+p
+java:S2440	"(Remove this instantiation of "HomePage".(È¿ËÁúÿÿÿÿ8åªİãå1J$81cbea55-13b7-4013-aca0-8b8a244908fd

@@ -6,10 +6,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 
 public class Players1 {
@@ -19,7 +16,8 @@ public class Players1 {
     private static final String TIE_TEXT = "It's Tie!";
     private final JButton[] cells = new JButton[9];
     private final JFrame frame;
-    private int computerTurn = random.nextInt(0, 9);
+    private LinkedList<Integer> reservedCells = new LinkedList<>();
+    private int computerTurn = randomWithExcludes(0 , 9 , reservedCells);
     private int roundNum = 0;
 
     public Players1() {
@@ -51,6 +49,8 @@ public class Players1 {
                 cells[temp].setText("X");
                 cells[temp].setFont(new Font(null, Font.BOLD, 225));
                 cells[temp].setForeground(Color.white);
+                // *************** BUG ***************
+                reservedCells.add(temp); // need to know why didn't add reserved cells
                 roundNum++;
 
                 if (isGameOver(cells)) {
@@ -59,13 +59,15 @@ public class Players1 {
                 // Check if new computer turn is reserved or not
                 if (roundNum < 5) {
                     while (!cells[computerTurn].getText().isEmpty()) { // need to exclude reserved places
-                        computerTurn = random.nextInt(0, 9);
+                        computerTurn = randomWithExcludes(0 , 9 , reservedCells);
                     }
                 }
                 cells[computerTurn].setEnabled(false);
                 cells[computerTurn].setText("O");
                 cells[computerTurn].setFont(new Font(null, Font.BOLD, 225));
                 cells[computerTurn].setForeground(Color.white);
+                reservedCells.add(computerTurn);
+
 
                 isGameOver(cells);
 
@@ -76,6 +78,27 @@ public class Players1 {
         }
 
         frame.setVisible(true);
+    }
+    public int randomWithExcludes(int start , int end , LinkedList<Integer> excludes){ // start is inclusive and end is exclusive
+
+        LinkedList<Integer> lastArr = new LinkedList<>();
+        for (int i = start; i < end; i++) {
+            lastArr.add(i);
+        }
+
+        for (int i = 0; i < lastArr.size(); i++) {
+            if (excludes.isEmpty()) break;
+            for (int j = 0; j < excludes.size(); j++) {
+                if(lastArr.get(i).equals(excludes.get(j))){
+                    lastArr.remove(i);
+                    excludes.remove(j);
+                    break;
+                }
+            }
+        }
+
+        int randomSelect = random.nextInt(lastArr.size());
+        return lastArr.get(randomSelect);
     }
 
     public void newLastPage(String text){
@@ -109,7 +132,9 @@ public class Players1 {
             return true;
         }
 
-        if (Arrays.stream(buttons).noneMatch(button -> button.getText().isEmpty())) {
+        // Also you can check about (Tie status) by size of reserved cells if equals 9;
+//         Arrays.stream(buttons).noneMatch(button -> button.getText().isEmpty())
+        if (reservedCells.size() == 9) {
             newLastPage(TIE_TEXT);
             frame.dispose();
             return true;

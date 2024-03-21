@@ -2,6 +2,11 @@ package tic_tac_toe;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Objects;
 
 public class HomePage {
@@ -28,18 +33,39 @@ public class HomePage {
         JLabel copyRight = new JLabel("Created by: ");
         copyRight.setFont(new Font(BOLI_FONT , Font.PLAIN , 20));
         copyRight.setHorizontalAlignment(SwingConstants.CENTER);
-        copyRight.setVerticalAlignment(SwingConstants.TOP);
-        copyRight.setBounds(115 , 498 ,  200 , 100);
+        copyRight.setVerticalAlignment(SwingConstants.CENTER);
+        copyRight.setBounds(115 , 466 ,  200 , 100);
         copyRight.setForeground(Color.white);
 
         JLabel copyRightName = new JLabel("Ebrahim & Karam");
         copyRightName.setFont(new Font(BOLI_FONT , Font.BOLD , 20));
         copyRightName.setHorizontalAlignment(SwingConstants.CENTER);
-        copyRightName.setVerticalAlignment(SwingConstants.TOP);
-        copyRightName.setBounds(260 , 500 ,  200 , 100);
+        copyRightName.setVerticalAlignment(SwingConstants.CENTER);
+        copyRightName.setBounds(270 , 500 ,  185 , 35);
         copyRightName.setForeground(new Color(0xE00A0A));
+        copyRightName.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        copyRightName.getCursor();
+            copyRightName.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    try {
+                        Desktop.getDesktop().browse(new URI("https://github.com/Ebrahim-Gamal-77/Tic-Tac-Toe"));
+                    } catch (IOException | URISyntaxException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    copyRightName.setText("<html><a style=\"color:aqua;\" href=''>" + "Visit Github" + "</a></html>");
+                }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    copyRightName.setText("Ebrahim & Karam");
+                }
+            });
 
-        // Homepage buttons
+
+            // Homepage buttons
         JButton player1 = new JButton("1 Player");
         player1.setFont(new Font(null , Font.BOLD , 40));
         player1.setBounds(150 , 190 , 300 , 100);
@@ -64,8 +90,8 @@ public class HomePage {
         mainPanel.add(gameName);
         mainPanel.add(player1);
         mainPanel.add(player2);
-        mainPanel.add(copyRight);
         mainPanel.add(copyRightName);
+        mainPanel.add(copyRight);
 
         // Add homepage frame components
         frame.add(mainPanel);
