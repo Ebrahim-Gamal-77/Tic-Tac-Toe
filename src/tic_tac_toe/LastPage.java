@@ -87,7 +87,7 @@ public class LastPage {
         copyRightName.setHorizontalAlignment(SwingConstants.CENTER);
         copyRightName.setVerticalAlignment(SwingConstants.CENTER);
         copyRightName.setBounds(270 , 500 ,  185 , 35);
-        copyRightName.setForeground(new Color(0xE00A0A));
+        copyRightName.setForeground(Color.red);
         copyRightName.setCursor(new Cursor(Cursor.HAND_CURSOR));
         copyRightName.getCursor();
         copyRightName.addMouseListener(new MouseAdapter() {
@@ -122,8 +122,7 @@ public class LastPage {
         3- make if else condition and create previous class
         */
 
-        String statusLastClass =  new Exception().getStackTrace()[1].getClassName();
-        String lastClass = statusLastClass; // add subString to it
+        String lastClass = new Exception().getStackTrace()[1].getClassName(); // add subString to it or regex.
         switch (lastClass){
             case "Players1" -> new Players1();
             case "Players2" -> new Players2();

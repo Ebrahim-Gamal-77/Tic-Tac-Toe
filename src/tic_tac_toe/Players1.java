@@ -10,17 +10,21 @@ import java.util.*;
 
 
 public class Players1 {
-    private static final Random random = new Random();
     private static final String WIN_TEXT = "You Win!";
     private static final String LOSE_TEXT = "You Lose!";
     private static final String TIE_TEXT = "It's Tie!";
     private final JButton[] cells = new JButton[9];
     private final JFrame frame;
-    private LinkedList<Integer> reservedCells = new LinkedList<>();
-    private int computerTurn = randomWithExcludes(0 , 9 , reservedCells);
+    private final LinkedList<Integer> availableCells = new LinkedList<>();
+    private int computerTurn = new Random().nextInt(0 ,  9);
     private int roundNum = 0;
 
     public Players1() {
+
+        // Initializing available cells
+        for (int i = 0; i < 9; i++) {
+            availableCells.add(i);
+        }
 
         // Main frame
         frame = new JFrame("Tic Tac Toe ( 1 Player )");
@@ -49,8 +53,7 @@ public class Players1 {
                 cells[temp].setText("X");
                 cells[temp].setFont(new Font(null, Font.BOLD, 225));
                 cells[temp].setForeground(Color.white);
-                // *************** BUG ***************
-                reservedCells.add(temp); // need to know why didn't add reserved cells
+                availableCells.remove(Integer.valueOf(temp)); // need to know why didn't add reserved cells
                 roundNum++;
 
                 if (isGameOver(cells)) {
@@ -58,16 +61,14 @@ public class Players1 {
                 }
                 // Check if new computer turn is reserved or not
                 if (roundNum < 5) {
-                    while (!cells[computerTurn].getText().isEmpty()) { // need to exclude reserved places
-                        computerTurn = randomWithExcludes(0 , 9 , reservedCells);
-                    }
+                        final int rnd = new Random().nextInt(availableCells.size());
+                        computerTurn = availableCells.get(rnd);
                 }
                 cells[computerTurn].setEnabled(false);
                 cells[computerTurn].setText("O");
                 cells[computerTurn].setFont(new Font(null, Font.BOLD, 225));
                 cells[computerTurn].setForeground(Color.white);
-                reservedCells.add(computerTurn);
-
+                availableCells.remove(Integer.valueOf(computerTurn));
 
                 isGameOver(cells);
 
@@ -78,27 +79,6 @@ public class Players1 {
         }
 
         frame.setVisible(true);
-    }
-    public int randomWithExcludes(int start , int end , LinkedList<Integer> excludes){ // start is inclusive and end is exclusive
-
-        LinkedList<Integer> lastArr = new LinkedList<>();
-        for (int i = start; i < end; i++) {
-            lastArr.add(i);
-        }
-
-        for (int i = 0; i < lastArr.size(); i++) {
-            if (excludes.isEmpty()) break;
-            for (int j = 0; j < excludes.size(); j++) {
-                if(lastArr.get(i).equals(excludes.get(j))){
-                    lastArr.remove(i);
-                    excludes.remove(j);
-                    break;
-                }
-            }
-        }
-
-        int randomSelect = random.nextInt(lastArr.size());
-        return lastArr.get(randomSelect);
     }
 
     public void newLastPage(String text){
@@ -131,10 +111,8 @@ public class Players1 {
             frame.dispose();
             return true;
         }
-
-        // Also you can check about (Tie status) by size of reserved cells if equals 9;
-//         Arrays.stream(buttons).noneMatch(button -> button.getText().isEmpty())
-        if (reservedCells.size() == 9) {
+//         Arrays.stream(buttons).noneMatch(button -> button.getText().isEmpty()) // Declarative programming
+        if (availableCells.isEmpty()) {
             newLastPage(TIE_TEXT);
             frame.dispose();
             return true;

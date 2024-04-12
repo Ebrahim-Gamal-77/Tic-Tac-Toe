@@ -27,7 +27,7 @@ public class HomePage {
         gameName.setHorizontalAlignment(SwingConstants.CENTER);
         gameName.setVerticalAlignment(SwingConstants.TOP);
         gameName.setBounds(40 , 35 ,  500 , 100);
-        gameName.setForeground(Color.yellow);
+        gameName.setForeground(Color.orange);
 
         // Create copyRights
         JLabel copyRight = new JLabel("Created by: ");
@@ -42,7 +42,7 @@ public class HomePage {
         copyRightName.setHorizontalAlignment(SwingConstants.CENTER);
         copyRightName.setVerticalAlignment(SwingConstants.CENTER);
         copyRightName.setBounds(270 , 500 ,  185 , 35);
-        copyRightName.setForeground(new Color(0xE00A0A));
+        copyRightName.setForeground(Color.red);
         copyRightName.setCursor(new Cursor(Cursor.HAND_CURSOR));
         copyRightName.getCursor();
             copyRightName.addMouseListener(new MouseAdapter() {
