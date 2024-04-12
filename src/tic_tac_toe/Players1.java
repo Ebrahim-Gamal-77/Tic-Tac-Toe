@@ -1,13 +1,11 @@
 package tic_tac_toe;
 
-
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.*;
-
 
 public class Players1 {
     private static final String WIN_TEXT = "You Win!";
@@ -30,7 +28,7 @@ public class Players1 {
         frame = new JFrame("Tic Tac Toe ( 1 Player )");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setBounds(350, 80, 700, 700);
-        frame.setIconImage(new ImageIcon(Objects.requireNonNull(Main.class.getClassLoader().getResource("xo icon 512.png"))).getImage());
+        frame.setIconImage(new ImageIcon(Objects.requireNonNull(Main.class.getClassLoader().getResource("additions/xo icon 512.png"))).getImage());
         frame.setResizable(true);
         frame.setLayout(new GridLayout(3, 3, 5, 5));
         frame.getContentPane().setBackground(Color.BLACK);
