@@ -18,7 +18,7 @@ public class HomePage {
         JFrame frame = new JFrame("Tic Tac Toe");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setBounds(400 , 100 , 600 , 600);
-        frame.setIconImage(new ImageIcon(Objects.requireNonNull(Main.class.getClassLoader().getResource("additions/xo icon 512.png"))).getImage());
+        frame.setIconImage(new ImageIcon(Objects.requireNonNull(Main.class.getClassLoader().getResource("tic_tac_toe/additions/xo icon 512.png"))).getImage());
         frame.setResizable(false);
 
         // Homepage labels

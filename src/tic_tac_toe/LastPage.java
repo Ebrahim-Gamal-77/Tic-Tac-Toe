@@ -19,13 +19,11 @@ public class LastPage {
 
     public LastPage(String status) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
-        System.out.println(status); // I need to know from where ( any class ) this data get passed
-
         // Last page frame
         frame = new JFrame("Tic Tac Toe");
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setBounds(400 , 100 , 600 , 600);
-        frame.setIconImage(new ImageIcon(Objects.requireNonNull(Main.class.getClassLoader().getResource("additions/xo icon 512.png"))).getImage());
+        frame.setIconImage(new ImageIcon(Objects.requireNonNull(Main.class.getClassLoader().getResource("tic_tac_toe/additions/xo icon 512.png"))).getImage());
         frame.setResizable(false);
 
         // Last page labels
@@ -41,17 +39,17 @@ public class LastPage {
             // 1 Player cases
             case "You Win!" -> {
                 gameStatus.setForeground(Color.green);
-                File file = new File("src/additions/win stat.wav");
+                File file = new File("src/tic_tac_toe/additions/win stat.wav");
                 AudioInputStream audioStream = AudioSystem.getAudioInputStream(file.getAbsoluteFile());
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioStream);
                 FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                gainControl.setValue(-10.0f);
+                gainControl.setValue(-7.0f);
                 clip.start();
             }
             case "You Lose!" -> {
                 gameStatus.setForeground(Color.red);
-                File file = new File("src/additions/lose stat.wav");
+                File file = new File("src/tic_tac_toe/additions/lose stat.wav");
                 AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioStream);
@@ -61,7 +59,7 @@ public class LastPage {
             }
             case "It's Tie!" -> {
                 gameStatus.setForeground(Color.yellow);
-                File file = new File("src/additions/tie stat.wav");
+                File file = new File("src/tic_tac_toe/additions/tie stat.wav");
                 AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioStream);
@@ -72,22 +70,22 @@ public class LastPage {
             // 2 Players cases
             case "Player 1 Wins!" -> {
                 gameStatus.setForeground(Color.green);
-                File file = new File("src/additions/win stat.wav");
+                File file = new File("src/tic_tac_toe/additions/win stat.wav");
                 AudioInputStream audioStream = AudioSystem.getAudioInputStream(file.getAbsoluteFile());
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioStream);
                 FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                gainControl.setValue(-10.0f);
+                gainControl.setValue(-7.0f);
                 clip.start();
             }
             case "Player 2 Wins!" -> {
                 gameStatus.setForeground(Color.green);
-                File file = new File("src/additions/win stat.wav");
+                File file = new File("src/tic_tac_toe/additions/win stat.wav");
                 AudioInputStream audioStream = AudioSystem.getAudioInputStream(file.getAbsoluteFile());
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioStream);
                 FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                gainControl.setValue(-10.0f);
+                gainControl.setValue(-7.0f);
                 clip.start();
             }
             default -> {

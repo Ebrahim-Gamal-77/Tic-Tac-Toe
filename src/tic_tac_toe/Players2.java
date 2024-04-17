@@ -27,7 +27,7 @@ public class Players2 {
         frame = new JFrame("Player 1 turn ( X )");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setBounds(350, 80, 700, 700);
-        frame.setIconImage(new ImageIcon(Objects.requireNonNull(Main.class.getClassLoader().getResource("additions/xo icon 512.png"))).getImage());
+        frame.setIconImage(new ImageIcon(Objects.requireNonNull(Main.class.getClassLoader().getResource("tic_tac_toe/additions/xo icon 512.png"))).getImage());
         frame.setResizable(true);
         frame.setLayout(new GridLayout(3, 3, 5, 5));
         frame.getContentPane().setBackground(Color.BLACK);
