@@ -6,29 +6,33 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class Players1 {
     private static final String WIN_TEXT = "You Win!";
     private static final String LOSE_TEXT = "You Lose!";
     private static final String TIE_TEXT = "It's Tie!";
+
+    private final Random random = new Random();
     private final JButton[] cells = new JButton[9];
+    private final Boolean[] availableCells = new Boolean[9];
     private final JFrame frame;
-    private final LinkedList<Integer> availableCells = new LinkedList<>();
-    private int computerTurn = new Random().nextInt(0 ,  9);
+
+    private int computerTurn = random.nextInt(0, 9);
     private int roundNum = 0;
 
     public Players1() {
 
         // Initializing available cells
-        for (int i = 0; i < 9; i++) {
-            availableCells.add(i);
-        }
+        Arrays.fill(availableCells, true);
 
         // Main frame
         frame = new JFrame("Tic Tac Toe ( 1 Player )");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setBounds(350, 80, 700, 700);
-        frame.setIconImage(new ImageIcon(Objects.requireNonNull(Main.class.getClassLoader().getResource("tic_tac_toe/additions/xo icon 512.png"))).getImage());
+        frame.setIconImage(new ImageIcon(Objects
+                .requireNonNull(Main.class.getClassLoader().getResource(Main.ICON_PATH)))
+                .getImage());
         frame.setResizable(true);
         frame.setLayout(new GridLayout(3, 3, 5, 5));
         frame.getContentPane().setBackground(Color.BLACK);
@@ -51,24 +55,25 @@ public class Players1 {
                 cells[temp].setText("X");
                 cells[temp].setFont(new Font(null, Font.BOLD, 225));
                 cells[temp].setForeground(Color.white);
-                availableCells.remove(Integer.valueOf(temp)); // need to know why didn't add reserved cells
+                availableCells[temp] = false; // need to know why didn't add reserved cells
                 roundNum++;
 
-                if (isGameOver(cells)) {
+                if (isGameOver()) {
                     return;
                 }
                 // Check if new computer turn is reserved or not
                 if (roundNum < 5) {
-                        final int rnd = new Random().nextInt(availableCells.size());
-                        computerTurn = availableCells.get(rnd);
+                    final int[] arr = IntStream.range(0, availableCells.length).filter(idx -> availableCells[idx])
+                            .toArray();
+                    computerTurn = arr[random.nextInt(arr.length)];
                 }
                 cells[computerTurn].setEnabled(false);
                 cells[computerTurn].setText("O");
                 cells[computerTurn].setFont(new Font(null, Font.BOLD, 225));
                 cells[computerTurn].setForeground(Color.white);
-                availableCells.remove(Integer.valueOf(computerTurn));
+                availableCells[computerTurn] = false;
 
-                isGameOver(cells);
+                isGameOver();
 
             });
 
@@ -79,15 +84,16 @@ public class Players1 {
         frame.setVisible(true);
     }
 
-    public void newLastPage(String text){
+    public void newLastPage(final String text) {
         try {
             new LastPage(text);
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             throw new RuntimeException(e);
         }
     }
-    public boolean isGameOver(JButton[] buttons) {
-        Optional<String> rows = checkRows(buttons);
+
+    public boolean isGameOver() {
+        final Optional<String> rows = checkRows();
         if (rows.isPresent()) {
             String text = rows.get();
             newLastPage(text);
@@ -95,7 +101,7 @@ public class Players1 {
             return true;
         }
 
-        Optional<String> columns = checkColumns(buttons);
+        final Optional<String> columns = checkColumns();
         if (columns.isPresent()) {
             String text = columns.get();
             newLastPage(text);
@@ -103,14 +109,15 @@ public class Players1 {
             return true;
         }
 
-        String diagonals = checkDiagonals(buttons);
+        final String diagonals = checkDiagonals();
         if (diagonals != null) {
             newLastPage(diagonals);
             frame.dispose();
             return true;
         }
-//         Arrays.stream(buttons).noneMatch(button -> button.getText().isEmpty()) // Declarative programming
-        if (availableCells.isEmpty()) {
+
+        // Check Wether all Cells are Occupied
+        if (Arrays.stream(availableCells).noneMatch(b -> b)) {
             newLastPage(TIE_TEXT);
             frame.dispose();
             return true;
@@ -118,37 +125,56 @@ public class Players1 {
         return false;
     }
 
-    private Optional<String> checkRows(JButton[] buttons) {
-        for (int i = 0; i <= 6; i += 3) {
-            if (buttons[i].getText().isEmpty() || !buttons[i].getText().equals(buttons[i + 1].getText()) || !buttons[i + 1].getText().equals(buttons[i + 2].getText())) {
-                continue;
-            }
+    private Optional<String> checkRows() {
+        // Optionally Get the first index of the row that has 3 Buttons with the same Content that is not Empty.
+        final OptionalInt rowIdx = IntStream.rangeClosed(0, 2)
+                .map(i -> i * 3)
+                .filter(i ->
+                        !cells[i].getText().isEmpty()
+                                && cells[i].getText().equals(cells[i + 1].getText())
+                                && cells[i].getText().equals(cells[i + 2].getText())
+                )
+                .findFirst();
 
-            String text = buttons[i].getText().equals("X") ? WIN_TEXT : LOSE_TEXT;
-            return Optional.of(text);
-        }
-        return Optional.empty();
+        // Return an optional String. If previously no row has been found
+        // that met the conditions an empty Optional is returned.
+        return rowIdx.stream()
+                .mapToObj(tmp -> getWinnerText(cells[tmp].getText()))
+                .findFirst();
     }
 
-    private Optional<String> checkColumns(JButton[] cells) {
-        for (int i = 0; i <= 2; i++) {
-            if (cells[i].getText().isEmpty() || !cells[i].getText().equals(cells[i + 3].getText()) || !cells[i + 3].getText().equals(cells[i + 6].getText())) {
-                continue;
-            }
+    private Optional<String> checkColumns() {
+        // Optionally Get the first index of the column that has 3 Buttons with the same Content that is not Empty.
+        final OptionalInt columnIdx = IntStream.rangeClosed(0, 2)
+                .filter(i ->
+                        !cells[i].getText().isEmpty()
+                                && cells[i].getText().equals(cells[i + 3].getText())
+                                && cells[i].getText().equals(cells[i + 6].getText())
+                )
+                .findFirst();
 
-            String text = cells[i].getText().equals("X") ? WIN_TEXT : LOSE_TEXT;
-            return Optional.of(text);
-        }
-        return Optional.empty();
+        return columnIdx.stream()
+                .mapToObj(tmp -> getWinnerText(cells[tmp].getText()))
+                .findFirst();
     }
 
-    private String checkDiagonals(JButton[] buttons) {
-        String text = null;
-        if (!buttons[0].getText().isEmpty() && buttons[0].getText().equals(buttons[4].getText()) && buttons[4].getText().equals(buttons[8].getText())) {
-            text = buttons[0].getText().equals("X") ? WIN_TEXT : LOSE_TEXT;
-        } else if (!buttons[2].getText().isEmpty() && buttons[2].getText().equals(buttons[4].getText()) && buttons[4].getText().equals(buttons[6].getText())) {
-            text = buttons[2].getText().equals("X") ? WIN_TEXT : LOSE_TEXT;
+    private String checkDiagonals() {
+        final String topLeft = cells[0].getText();
+        final String topRight = cells[2].getText();
+        final String middle = cells[4].getText();
+        final String bottomLeft = cells[6].getText();
+        final String bottomRight = cells[8].getText();
+
+        if (!topLeft.isEmpty() && topLeft.equals(middle) && topLeft.equals(bottomRight)) {
+            return getWinnerText(topLeft);
+        } else if (!topRight.isEmpty() && topRight.equals(middle) && topRight.equals(bottomLeft)) {
+            return getWinnerText(topRight);
+        } else {
+            return null;
         }
-        return text;
+    }
+
+    private String getWinnerText(final String text) {
+        return text.equals("X") ? WIN_TEXT : LOSE_TEXT;
     }
 }
