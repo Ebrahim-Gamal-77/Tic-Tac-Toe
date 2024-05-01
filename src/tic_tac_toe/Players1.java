@@ -7,6 +7,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.IntStream;
+import java.util.Timer;
 
 public class Players1 {
     private static final String WIN_TEXT = "You Win!";
@@ -58,22 +59,35 @@ public class Players1 {
                 availableCells[temp] = false; // need to know why didn't add reserved cells
                 roundNum++;
 
-                if (isGameOver()) {
-                    return;
-                }
+                 if (isGameOver()) {
+                     return;
+                 }
+
                 // Check if new computer turn is reserved or not
                 if (roundNum < 5) {
-                    final int[] arr = IntStream.range(0, availableCells.length).filter(idx -> availableCells[idx])
-                            .toArray();
-                    computerTurn = arr[random.nextInt(arr.length)];
-                }
-                cells[computerTurn].setEnabled(false);
-                cells[computerTurn].setText("O");
-                cells[computerTurn].setFont(new Font(null, Font.BOLD, 225));
-                cells[computerTurn].setForeground(Color.white);
-                availableCells[computerTurn] = false;
 
-                isGameOver();
+                    // Adding a timer for computer turn
+                    Timer computerTimer = new Timer();
+                    computerTimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            final int[] arr = IntStream.range(0, availableCells.length).filter(idx -> availableCells[idx])
+                                    .toArray();
+                            computerTurn = arr[random.nextInt(arr.length)];
+                            cells[computerTurn].setEnabled(false);
+                            cells[computerTurn].setText("O");
+                            cells[computerTurn].setFont(new Font(null, Font.BOLD, 225));
+                            cells[computerTurn].setForeground(Color.white);
+                            availableCells[computerTurn] = false;
+                            isGameOver();
+
+                            computerTimer.cancel();
+                        }
+                    } , 250);
+
+
+                }
+
 
             });
 
@@ -116,7 +130,7 @@ public class Players1 {
             return true;
         }
 
-        // Check Wether all Cells are Occupied
+        // Check Whether all Cells are Occupied
         if (Arrays.stream(availableCells).noneMatch(b -> b)) {
             newLastPage(TIE_TEXT);
             frame.dispose();
