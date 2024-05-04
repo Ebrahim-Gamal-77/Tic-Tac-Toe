@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.IntStream;
 import java.util.Timer;
 
@@ -39,6 +40,9 @@ public class Players1 {
         frame.getContentPane().setBackground(Color.BLACK);
 
         // Adjust buttons
+
+        final AtomicBoolean isPlayerTurn = new AtomicBoolean(true);
+
         for (int i = 0; i < cells.length; i++) {
             // Create button's constructor
             cells[i] = new JButton();
@@ -48,10 +52,14 @@ public class Players1 {
             cells[i].setFocusable(false);
             cells[i].setContentAreaFilled(false);
 
+
             // Set buttons Action Listener
             final int temp = i;
             cells[i].addActionListener(e -> {
                 // Player turn
+                if (!isPlayerTurn.get()) {
+                    return;
+                }
                 cells[temp].setEnabled(false);
                 cells[temp].setText("X");
                 cells[temp].setFont(new Font(null, Font.BOLD, 225));
@@ -59,9 +67,12 @@ public class Players1 {
                 availableCells[temp] = false; // need to know why didn't add reserved cells
                 roundNum++;
 
-                 if (isGameOver()) {
-                     return;
-                 }
+                if (isGameOver()) {
+                    return;
+                }
+
+                // This to stop player from putting 'X' while it's computer turn
+                isPlayerTurn.set(false);
 
                 // Check if new computer turn is reserved or not
                 if (roundNum < 5) {
@@ -71,6 +82,7 @@ public class Players1 {
                     computerTimer.schedule(new TimerTask() {
                         @Override
                         public void run() {
+                            // Give me all available cells by index
                             final int[] arr = IntStream.range(0, availableCells.length).filter(idx -> availableCells[idx])
                                     .toArray();
                             computerTurn = arr[random.nextInt(arr.length)];
@@ -81,13 +93,13 @@ public class Players1 {
                             availableCells[computerTurn] = false;
                             isGameOver();
 
+                            isPlayerTurn.set(true);
                             computerTimer.cancel();
                         }
-                    } , 250);
+                    }, 300);
 
 
                 }
-
 
             });
 
